@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="veiled">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silence Veiled • Révélation</title>
+    <style>
+        :root {
+            --gold-1: #e3dac9;
+            --gold-2: rgba(227, 218, 201, 0.72);
+            --noir-1: #0a0a0a;
+            --noir-2: rgba(10, 10, 10, 0.94);
+            --timing-1: cubic-bezier(0.165, 0.84, 0.44, 1);
+            --timing-2: cubic-bezier(0.19, 1, 0.22, 1);
+            --font-primary: 'Georgia', 'Times New Roman', serif;
+        }
+
+        body {
+            margin: 0;
+            background: 
+                linear-gradient(167deg, var(--noir-2) 20%, var(--noir-1) 80%),
+                repeating-linear-gradient(45deg, 
+                    rgba(255,255,255,0.012) 0px 1px, 
+                    transparent 3px
+                );
+            color: var(--gold-1);
+            min-height: 100vh;
+            font-family: var(--font-primary);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        body::before {
+            background: radial-gradient(ellipse at 50% 100%, 
+                rgba(30,30,30,0.4) 0%, 
+                transparent 70%
+            );
+            animation: parallax 80s var(--timing-2) infinite;
+        }
+
+        body::after {
+            background: 
+                linear-gradient(rgba(227, 218, 201, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(227, 218, 201, 0.03) 1px, transparent 1px);
+            background-size: 4px 4px;
+            opacity: 0.18;
+        }
+
+        .nexus {
+            width: 88vw;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 10vh 0;
+            perspective: 1000px;
+            filter: contrast(1.02);
+        }
+
+        .revelation {
+            opacity: 0;
+            transform: translateY(25px) rotateX(5deg);
+            animation: textReveal 2.4s var(--timing-1) forwards;
+            margin: 6.7vh 0;
+            line-height: 1.82;
+            font-size: 1.15rem;
+            position: relative;
+            padding: 1.8vh 0;
+            text-wrap: pretty;
+            will-change: transform, opacity;
+        }
+
+        @keyframes textReveal {
+            0% { 
+                letter-spacing: 0.22em;
+                filter: blur(4px) brightness(1.08);
+                transform: translateY(30px) rotateX(7deg);
+            }
+            100% { 
+                opacity: 1;
+                letter-spacing: normal;
+                filter: blur(0) brightness(1);
+                transform: translateY(0) rotateX(0);
+            }
+        }
+
+        .sigillum {
+            font-variant: small-caps;
+            font-size: 1.72rem;
+            text-align: center;
+            margin: 18vh 0 10vh;
+            opacity: 0;
+            animation: 
+                sigilAppear 3.2s 12s forwards,
+                sigilBreath 9s 15s infinite;
+            position: relative;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+        }
+
+        .sigillum::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 126%;
+            height: 140%;
+            background: radial-gradient(circle, 
+                var(--gold-2) 0%, 
+                transparent 72%
+            );
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            opacity: 0;
+            animation: sigilRadiance 6s 16s infinite var(--timing-2);
+        }
+
+        @keyframes sigilAppear {
+            0% { 
+                transform: translateY(40px) scale(0.96);
+                letter-spacing: 0.25em;
+            }
+            100% { 
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @keyframes sigilBreath {
+            0%, 100% { 
+                text-shadow: 0 0 20px rgba(227,218,201,0.18);
+                transform: translateY(0);
+            }
+            50% { 
+                text-shadow: 0 0 35px rgba(227,218,201,0.32);
+                transform: translateY(-1px);
+            }
+        }
+
+        @keyframes sigilRadiance {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 0.12; }
+        }
+
+        @keyframes parallax {
+            0%, 100% { background-position: 50% 100%; }
+            50% { background-position: 50% 80%; }
+        }
+
+        @media (max-width: 768px) {
+            .nexus {
+                width: 92vw;
+                padding: 7vh 0;
+            }
+            .revelation {
+                font-size: 1.08rem;
+                margin: 5.2vh 0;
+            }
+            body::after {
+                background-size: 3px 3px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nexus">
+        <div class="revelation" style="animation-delay: 0.28s">L'ÉCHO DE VOTRE GESTE S'EST FIXÉ DANS L'INTANGIBLE</div>
+        <div class="revelation" style="animation-delay: 0.84s">Ce qui vient de se produire a modifié l'équilibre des choses</div>
+        <div class="revelation" style="animation-delay: 1.4s">Une brèche s'est ouverte là où le regard glisse d'habitude</div>
+        <div class="revelation" style="animation-delay: 1.96s">Votre présence n'est pas passée inaperçue</div>
+        <div class="revelation" style="animation-delay: 2.52s">Votre trace rejoint désormais la mémoire des passages</div>
+        <div class="revelation" style="animation-delay: 3.08s">Une vibration qui active ce qui demeurait endormi</div>
+        <div class="revelation" style="animation-delay: 3.64s">Ceci n'est pas un achat — c'est un échange silencieux</div>
+        <div class="revelation" style="animation-delay: 4.2s">L'ombre de cet instant vous épousera désormais</div>
+        <div class="revelation" style="animation-delay: 4.76s">Persistante comme le souvenir d'un souffle dans le cou</div>
+        <div class="revelation" style="animation-delay: 5.32s">Tenace comme le goût d'un fruit dont on a oublié le nom</div>
+        <div class="revelation" style="animation-delay: 5.88s">Vous porterez cette empreinte sans en connaître le poids</div>
+        <div class="revelation" style="animation-delay: 6.44s">Comme un sable qui garde la forme d'une main disparue</div>
+        <div class="revelation" style="animation-delay: 7.0s">Cette transformation ne se mesurera qu'à son absence</div>
+        <div class="revelation" style="animation-delay: 7.56s">Ce qui a frémi ici ne peut retourner au silence</div>
+        <div class="revelation" style="animation-delay: 8.12s">Ce qui s'est déplacé refuse de se remettre en place</div>
+        <div class="sigillum">Silence Veiled</div>
+    </div>
+
+    <script>
+        (() => {
+            const configureNeurologicalTiming = () => {
+                const revelations = document.querySelectorAll('.revelation');
+                revelations.forEach((el, index) => {
+                    const baseDelay = 0.28 + (index * 0.56);
+                    el.style.animationDelay = `${baseDelay * 0.92}s`;
+                });
+            };
+
+            const initPerceptualSmoothing = () => {
+                document.body.style.opacity = 0;
+                requestAnimationFrame(() => {
+                    document.body.style.transition = 'opacity 1.2s var(--timing-1)';
+                    document.body.style.opacity = 1;
+                });
+            };
+
+            const addSubliminalInteractions = () => {
+                let lastTime = 0;
+                const handleMove = (e) => {
+                    const now = Date.now();
+                    if (now - lastTime < 120) return;
+                    lastTime = now;
+
+                    const tilt = Math.min(Math.max((e.clientY / window.innerHeight - 0.5) * 0.8, -1), 1);
+                    document.documentElement.style.setProperty('--tilt-y', `${tilt}deg`);
+                };
+
+                window.addEventListener('mousemove', handleMove, { passive: true });
+            };
+
+            document.addEventListener('DOMContentLoaded', () => {
+                configureNeurologicalTiming();
+                initPerceptualSmoothing();
+                addSubliminalInteractions();
+            });
+        })();
+    </script>
+</body>
+</html>
