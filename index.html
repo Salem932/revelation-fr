@@ -1,252 +1,185 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="veiled">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#080808">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Silence Veiled • Révélation</title>
     <style>
         :root {
-            --gold-base: #e3dac9;
-            --gold-soft: rgba(227, 218, 201, 0.9);
-            --black-base: #080808;
-            --black-layered: rgba(15, 15, 15, 0.96);
-            --motion-timing: cubic-bezier(0.23, 1, 0.32, 1);
-            --font-stack: 'Georgia', 'Times New Roman', 'serif';
+            --gold: #e3dac9;
+            --dark: #080808;
+            --timing: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Foundation Layer - Universal Background */
         body {
             margin: 0;
             background: 
-                linear-gradient(167deg, var(--black-layered) 20%, var(--black-base) 80%),
-                repeating-linear-gradient(45deg, 
-                    rgba(255,255,255,0.05) 0px 1px, 
+                linear-gradient(15deg, #0a0a0a 0%, #121212 100%),
+                repeating-linear-gradient(
+                    45deg, 
+                    rgba(255,255,255,0.03) 0px 1px, 
                     transparent 3px
-                );
-            color: var(--gold-base);
-            min-height: 100vh;
-            font-family: var(--font-stack);
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Dynamic Texture Overlays */
-        .texture-overlay {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-            background: 
+                ),
                 radial-gradient(circle at 50% 100%, 
                     rgba(50,50,50,0.3) 0%, 
                     transparent 70%
-                ),
-                linear-gradient(rgba(227, 218, 201, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(227, 218, 201, 0.05) 1px, transparent 1px);
-            background-size: 200% 200%, 4px 4px;
-            animation: 
-                texturePan 40s linear infinite,
-                parallaxFlow 60s var(--motion-timing) infinite;
-            mix-blend-mode: soft-light;
-            opacity: 0.8;
+                );
+            background-blend-mode: multiply;
+            color: var(--gold);
+            min-height: 100vh;
+            font-family: Georgia, serif;
+            overflow-x: hidden;
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards;
         }
 
-        /* Core Content Container */
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
         .nexus {
             width: 88vw;
             max-width: 720px;
             margin: 0 auto;
             padding: 10vh 0;
             position: relative;
-            z-index: 1;
-            filter: contrast(1.1) brightness(1.05);
         }
 
-        /* Text Reveal System */
         .revelation {
             opacity: 0;
             transform: translateY(20px);
-            animation: textEmergence 2s var(--motion-timing) forwards;
+            animation: textReveal 2.5s var(--timing) forwards;
             margin: 7vh 0;
             line-height: 1.8;
-            font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+            font-size: 1.2rem;
+            text-shadow: 0 0 15px rgba(227, 218, 201, 0.3);
             padding: 2vh 0;
-            text-wrap: balance;
-            text-shadow: 0 0 15px rgba(227, 218, 201, 0.2);
-            will-change: transform, opacity;
         }
 
-        @keyframes textEmergence {
-            0% { 
-                letter-spacing: 0.15em;
-                filter: blur(6px) brightness(1.2);
+        @keyframes textReveal {
+            0% {
+                filter: blur(8px);
+                letter-spacing: 0.1em;
                 transform: translateY(30px);
             }
-            100% { 
+            100% {
                 opacity: 1;
+                filter: blur(0);
                 letter-spacing: normal;
-                filter: blur(0) brightness(1);
                 transform: translateY(0);
             }
         }
 
-        /* Signature Element */
         .sigillum {
             font-variant: small-caps;
-            font-size: clamp(1.5rem, 5vw, 2rem);
+            font-size: 2rem;
             text-align: center;
-            margin: 20vh 0 12vh;
+            margin: 20vh 0 15vh;
             opacity: 0;
             animation: 
-                sigilApparition 3s 5s forwards,
-                sigilPulse 6s 8s infinite;
+                sigilAppear 2s 6s forwards,
+                sigilGlow 4s 8s infinite;
             position: relative;
-            letter-spacing: 0.1em;
-            filter: drop-shadow(0 0 10px rgba(227,218,201,0.3));
+            letter-spacing: 0.05em;
         }
 
-        .sigillum::before {
+        .sigillum::after {
             content: "";
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 150%;
-            height: 180%;
+            width: 120%;
+            height: 140%;
             background: radial-gradient(circle, 
-                var(--gold-soft) 0%, 
+                rgba(227,218,201,0.15) 0%, 
                 transparent 70%
             );
             transform: translate(-50%, -50%);
-            animation: auraPulse 8s infinite;
-            opacity: 0.15;
+            z-index: -1;
         }
 
-        /* Animations Universelles */
-        @keyframes texturePan {
-            0% { background-position: 0 0, 0 0; }
-            100% { background-position: 100% 100%, 0 80px; }
+        @keyframes sigilAppear {
+            from { 
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+            to { 
+                opacity: 1;
+                transform: none;
+            }
         }
 
-        @keyframes parallaxFlow {
-            0%, 100% { background-position: 50% 100%; }
-            50% { background-position: 50% 80%; }
-        }
-
-        @keyframes sigilApparition {
-            0% { transform: translateY(50px) scale(0.95); opacity: 0; }
-            100% { transform: none; opacity: 1; }
-        }
-
-        @keyframes sigilPulse {
+        @keyframes sigilGlow {
             0%, 100% { 
-                text-shadow: 0 0 30px rgba(227,218,201,0.4);
-                transform: translateY(0);
+                text-shadow: 0 0 20px rgba(227,218,201,0.4);
+                filter: brightness(1);
             }
             50% { 
-                text-shadow: 0 0 60px rgba(227,218,201,0.6);
-                transform: translateY(-3px);
+                text-shadow: 0 0 40px rgba(227,218,201,0.8);
+                filter: brightness(1.1);
             }
         }
 
-        @keyframes auraPulse {
-            0%, 100% { opacity: 0.1; transform: translate(-50%, -50%) scale(0.95); }
-            50% { opacity: 0.25; transform: translate(-50%, -50%) scale(1.05); }
-        }
-
-        /* Adaptations Universelles */
         @media (max-width: 768px) {
             .nexus {
                 width: 92vw;
                 padding: 7vh 0;
             }
             .revelation {
+                font-size: 1.1rem;
                 margin: 5vh 0;
-                font-size: clamp(1rem, 4vw, 1.1rem);
             }
-            .texture-overlay {
-                background-size: 150% 150%, 3px 3px;
+            .sigillum {
+                font-size: 1.8rem;
+                margin: 15vh 0 10vh;
             }
         }
 
         @media (prefers-reduced-motion: reduce) {
             * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
+                animation: none !important;
                 transition: none !important;
+            }
+            body {
+                opacity: 1 !important;
             }
         }
     </style>
 </head>
 <body>
-    <div class="texture-overlay"></div>
-    
     <div class="nexus">
-        <div class="revelation" style="animation-delay: 0.2s">L'ÉCHO DE VOTRE GESTE S'EST FIXÉ DANS L'INTANGIBLE</div>
-        <div class="revelation" style="animation-delay: 0.6s">Ce qui vient de se produire a modifié l'équilibre des choses</div>
-        <div class="revelation" style="animation-delay: 1.0s">Une brèche s'est ouverte là où le regard glisse d'habitude</div>
-        <div class="revelation" style="animation-delay: 1.4s">Votre présence n'est pas passée inaperçue</div>
-        <div class="revelation" style="animation-delay: 1.8s">Votre trace rejoint désormais la mémoire des passages</div>
-        <div class="revelation" style="animation-delay: 2.2s">Une vibration qui active ce qui demeurait endormi</div>
-        <div class="revelation" style="animation-delay: 2.6s">Ceci n'est pas un achat — c'est un échange silencieux</div>
-        <div class="revelation" style="animation-delay: 3.0s">L'ombre de cet instant vous épousera désormais</div>
-        <div class="revelation" style="animation-delay: 3.4s">Persistante comme le souvenir d'un souffle dans le cou</div>
-        <div class="revelation" style="animation-delay: 3.8s">Tenace comme le goût d'un fruit dont on a oublié le nom</div>
-        <div class="revelation" style="animation-delay: 4.2s">Vous porterez cette empreinte sans en connaître le poids</div>
-        <div class="revelation" style="animation-delay: 4.6s">Comme un sable qui garde la forme d'une main disparue</div>
-        <div class="revelation" style="animation-delay: 5.0s">Cette transformation ne se mesurera qu'à son absence</div>
-        <div class="revelation" style="animation-delay: 5.4s">Ce qui a frémi ici ne peut retourner au silence</div>
-        <div class="revelation" style="animation-delay: 5.8s">Ce qui s'est déplacé refuse de se remettre en place</div>
+        <div class="revelation" style="animation-delay: 0.3s">L'ÉCHO DE VOTRE GESTE S'EST FIXÉ DANS L'INTANGIBLE</div>
+        <div class="revelation" style="animation-delay: 0.9s">Ce qui vient de se produire a modifié l'équilibre des choses</div>
+        <div class="revelation" style="animation-delay: 1.5s">Une brèche s'est ouverte là où le regard glisse d'habitude</div>
+        <div class="revelation" style="animation-delay: 2.1s">Votre présence n'est pas passée inaperçue</div>
+        <div class="revelation" style="animation-delay: 2.7s">Votre trace rejoint désormais la mémoire des passages</div>
+        <div class="revelation" style="animation-delay: 3.3s">Une vibration qui active ce qui demeurait endormi</div>
+        <div class="revelation" style="animation-delay: 3.9s">Ceci n'est pas un achat — c'est un échange silencieux</div>
+        <div class="revelation" style="animation-delay: 4.5s">L'ombre de cet instant vous épousera désormais</div>
+        <div class="revelation" style="animation-delay: 5.1s">Persistante comme le souvenir d'un souffle dans le cou</div>
+        <div class="revelation" style="animation-delay: 5.7s">Tenace comme le goût d'un fruit dont on a oublié le nom</div>
+        <div class="revelation" style="animation-delay: 6.3s">Vous porterez cette empreinte sans en connaître le poids</div>
+        <div class="revelation" style="animation-delay: 6.9s">Comme un sable qui garde la forme d'une main disparue</div>
+        <div class="revelation" style="animation-delay: 7.5s">Cette transformation ne se mesurera qu'à son absence</div>
+        <div class="revelation" style="animation-delay: 8.1s">Ce qui a frémi ici ne peut retourner au silence</div>
+        <div class="revelation" style="animation-delay: 8.7s">Ce qui s'est déplacé refuse de se remettre en place</div>
         <div class="sigillum">Silence Veiled</div>
     </div>
 
     <script>
-        (function() {
-            // Initialisation Universelle
-            function initExperience() {
-                // Synchronisation des Animations
-                const revelations = document.querySelectorAll('.revelation');
-                revelations.forEach((el, index) => {
-                    el.style.animationDelay = `${index * 0.4 + 0.2}s`;
-                });
-
-                // Interaction Tactile Universelle
-                let lastUpdate = 0;
-                const updateView = (x, y) => {
-                    const now = Date.now();
-                    if (now - lastUpdate < 16) return;
-                    lastUpdate = now;
-
-                    const tiltX = (x / window.innerWidth - 0.5) * 2;
-                    const tiltY = (y / window.innerHeight - 0.5) * 3;
-                    document.documentElement.style.setProperty('--tilt-x', `${tiltX}deg`);
-                    document.documentElement.style.setProperty('--tilt-y', `${tiltY}deg`);
-                };
-
-                // Gestion Multi-Plateforme
-                if ('ontouchstart' in window) {
-                    window.addEventListener('touchmove', (e) => {
-                        updateView(e.touches[0].clientX, e.touches[0].clientY);
-                    }, { passive: true });
-                } else {
-                    window.addEventListener('mousemove', (e) => {
-                        updateView(e.clientX, e.clientY);
-                    }, { passive: true });
-                }
-
-                // Démarrage Progressif
-                document.body.style.opacity = '0';
-                requestAnimationFrame(() => {
-                    document.body.style.transition = 'opacity 2s var(--motion-timing)';
-                    document.body.style.opacity = '1';
-                });
-            }
-
-            document.addEventListener('DOMContentLoaded', initExperience);
-            window.addEventListener('load', () => {
-                document.documentElement.style.scrollBehavior = 'smooth';
+        document.addEventListener('DOMContentLoaded', () => {
+            // Synchronisation universelle
+            const revelations = document.querySelectorAll('.revelation');
+            revelations.forEach(el => {
+                const delay = parseFloat(el.style.animationDelay);
+                el.style.animationDelay = `${delay * 0.9}s`;
             });
-        })();
+
+            // Activation progressive
+            setTimeout(() => {
+                document.body.style.overflow = 'auto';
+            }, 500);
+        });
     </script>
 </body>
 </html>
