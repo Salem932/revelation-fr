@@ -2,107 +2,108 @@
 <html lang="fr" data-theme="veiled">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#080808">
     <title>Silence Veiled • Révélation</title>
     <style>
         :root {
-            --gold-1: #e3dac9;
-            --gold-2: rgba(227, 218, 201, 0.72);
-            --noir-1: #0a0a0a;
-            --noir-2: rgba(10, 10, 10, 0.94);
-            --timing-1: cubic-bezier(0.165, 0.84, 0.44, 1);
-            --timing-2: cubic-bezier(0.19, 1, 0.22, 1);
-            --font-primary: 'Georgia', 'Times New Roman', serif;
+            --gold-base: #e3dac9;
+            --gold-soft: rgba(227, 218, 201, 0.9);
+            --black-base: #080808;
+            --black-layered: rgba(15, 15, 15, 0.96);
+            --motion-timing: cubic-bezier(0.23, 1, 0.32, 1);
+            --font-stack: 'Georgia', 'Times New Roman', 'serif';
         }
 
+        /* Foundation Layer - Universal Background */
         body {
             margin: 0;
             background: 
-                linear-gradient(167deg, var(--noir-2) 20%, var(--noir-1) 80%),
+                linear-gradient(167deg, var(--black-layered) 20%, var(--black-base) 80%),
                 repeating-linear-gradient(45deg, 
-                    rgba(255,255,255,0.012) 0px 1px, 
+                    rgba(255,255,255,0.05) 0px 1px, 
                     transparent 3px
                 );
-            color: var(--gold-1);
+            color: var(--gold-base);
             min-height: 100vh;
-            font-family: var(--font-primary);
+            font-family: var(--font-stack);
             overflow-x: hidden;
             position: relative;
         }
 
-        body::before,
-        body::after {
-            content: '';
-            position: absolute;
+        /* Dynamic Texture Overlays */
+        .texture-overlay {
+            position: fixed;
             inset: 0;
             pointer-events: none;
-            z-index: -1;
-        }
-
-        body::before {
-            background: radial-gradient(ellipse at 50% 100%, 
-                rgba(30,30,30,0.4) 0%, 
-                transparent 70%
-            );
-            animation: parallax 80s var(--timing-2) infinite;
-        }
-
-        body::after {
+            z-index: 0;
             background: 
-                linear-gradient(rgba(227, 218, 201, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(227, 218, 201, 0.03) 1px, transparent 1px);
-            background-size: 4px 4px;
-            opacity: 0.18;
+                radial-gradient(circle at 50% 100%, 
+                    rgba(50,50,50,0.3) 0%, 
+                    transparent 70%
+                ),
+                linear-gradient(rgba(227, 218, 201, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(227, 218, 201, 0.05) 1px, transparent 1px);
+            background-size: 200% 200%, 4px 4px;
+            animation: 
+                texturePan 40s linear infinite,
+                parallaxFlow 60s var(--motion-timing) infinite;
+            mix-blend-mode: soft-light;
+            opacity: 0.8;
         }
 
+        /* Core Content Container */
         .nexus {
             width: 88vw;
             max-width: 720px;
             margin: 0 auto;
             padding: 10vh 0;
-            perspective: 1000px;
-            filter: contrast(1.02);
+            position: relative;
+            z-index: 1;
+            filter: contrast(1.1) brightness(1.05);
         }
 
+        /* Text Reveal System */
         .revelation {
             opacity: 0;
-            transform: translateY(25px) rotateX(5deg);
-            animation: textReveal 2.4s var(--timing-1) forwards;
-            margin: 6.7vh 0;
-            line-height: 1.82;
-            font-size: 1.15rem;
-            position: relative;
-            padding: 1.8vh 0;
-            text-wrap: pretty;
+            transform: translateY(20px);
+            animation: textEmergence 2s var(--motion-timing) forwards;
+            margin: 7vh 0;
+            line-height: 1.8;
+            font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+            padding: 2vh 0;
+            text-wrap: balance;
+            text-shadow: 0 0 15px rgba(227, 218, 201, 0.2);
             will-change: transform, opacity;
         }
 
-        @keyframes textReveal {
+        @keyframes textEmergence {
             0% { 
-                letter-spacing: 0.22em;
-                filter: blur(4px) brightness(1.08);
-                transform: translateY(30px) rotateX(7deg);
+                letter-spacing: 0.15em;
+                filter: blur(6px) brightness(1.2);
+                transform: translateY(30px);
             }
             100% { 
                 opacity: 1;
                 letter-spacing: normal;
                 filter: blur(0) brightness(1);
-                transform: translateY(0) rotateX(0);
+                transform: translateY(0);
             }
         }
 
+        /* Signature Element */
         .sigillum {
             font-variant: small-caps;
-            font-size: 1.72rem;
+            font-size: clamp(1.5rem, 5vw, 2rem);
             text-align: center;
-            margin: 18vh 0 10vh;
+            margin: 20vh 0 12vh;
             opacity: 0;
             animation: 
-                sigilAppear 3.2s 12s forwards,
-                sigilBreath 9s 15s infinite;
+                sigilApparition 3s 5s forwards,
+                sigilPulse 6s 8s infinite;
             position: relative;
-            font-weight: 400;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
+            filter: drop-shadow(0 0 10px rgba(227,218,201,0.3));
         }
 
         .sigillum::before {
@@ -110,61 +111,61 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 126%;
-            height: 140%;
+            width: 150%;
+            height: 180%;
             background: radial-gradient(circle, 
-                var(--gold-2) 0%, 
-                transparent 72%
+                var(--gold-soft) 0%, 
+                transparent 70%
             );
             transform: translate(-50%, -50%);
-            z-index: -1;
-            opacity: 0;
-            animation: sigilRadiance 6s 16s infinite var(--timing-2);
+            animation: auraPulse 8s infinite;
+            opacity: 0.15;
         }
 
-        @keyframes sigilAppear {
-            0% { 
-                transform: translateY(40px) scale(0.96);
-                letter-spacing: 0.25em;
-            }
-            100% { 
-                opacity: 1;
-                transform: none;
-            }
+        /* Animations Universelles */
+        @keyframes texturePan {
+            0% { background-position: 0 0, 0 0; }
+            100% { background-position: 100% 100%, 0 80px; }
         }
 
-        @keyframes sigilBreath {
-            0%, 100% { 
-                text-shadow: 0 0 20px rgba(227,218,201,0.18);
-                transform: translateY(0);
-            }
-            50% { 
-                text-shadow: 0 0 35px rgba(227,218,201,0.32);
-                transform: translateY(-1px);
-            }
-        }
-
-        @keyframes sigilRadiance {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 0.12; }
-        }
-
-        @keyframes parallax {
+        @keyframes parallaxFlow {
             0%, 100% { background-position: 50% 100%; }
             50% { background-position: 50% 80%; }
         }
 
+        @keyframes sigilApparition {
+            0% { transform: translateY(50px) scale(0.95); opacity: 0; }
+            100% { transform: none; opacity: 1; }
+        }
+
+        @keyframes sigilPulse {
+            0%, 100% { 
+                text-shadow: 0 0 30px rgba(227,218,201,0.4);
+                transform: translateY(0);
+            }
+            50% { 
+                text-shadow: 0 0 60px rgba(227,218,201,0.6);
+                transform: translateY(-3px);
+            }
+        }
+
+        @keyframes auraPulse {
+            0%, 100% { opacity: 0.1; transform: translate(-50%, -50%) scale(0.95); }
+            50% { opacity: 0.25; transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        /* Adaptations Universelles */
         @media (max-width: 768px) {
             .nexus {
                 width: 92vw;
                 padding: 7vh 0;
             }
             .revelation {
-                font-size: 1.08rem;
-                margin: 5.2vh 0;
+                margin: 5vh 0;
+                font-size: clamp(1rem, 4vw, 1.1rem);
             }
-            body::after {
-                background-size: 3px 3px;
+            .texture-overlay {
+                background-size: 150% 150%, 3px 3px;
             }
         }
 
@@ -172,66 +173,78 @@
             * {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
+                transition: none !important;
             }
         }
     </style>
 </head>
 <body>
+    <div class="texture-overlay"></div>
+    
     <div class="nexus">
-        <div class="revelation" style="animation-delay: 0.28s">L'ÉCHO DE VOTRE GESTE S'EST FIXÉ DANS L'INTANGIBLE</div>
-        <div class="revelation" style="animation-delay: 0.84s">Ce qui vient de se produire a modifié l'équilibre des choses</div>
-        <div class="revelation" style="animation-delay: 1.4s">Une brèche s'est ouverte là où le regard glisse d'habitude</div>
-        <div class="revelation" style="animation-delay: 1.96s">Votre présence n'est pas passée inaperçue</div>
-        <div class="revelation" style="animation-delay: 2.52s">Votre trace rejoint désormais la mémoire des passages</div>
-        <div class="revelation" style="animation-delay: 3.08s">Une vibration qui active ce qui demeurait endormi</div>
-        <div class="revelation" style="animation-delay: 3.64s">Ceci n'est pas un achat — c'est un échange silencieux</div>
-        <div class="revelation" style="animation-delay: 4.2s">L'ombre de cet instant vous épousera désormais</div>
-        <div class="revelation" style="animation-delay: 4.76s">Persistante comme le souvenir d'un souffle dans le cou</div>
-        <div class="revelation" style="animation-delay: 5.32s">Tenace comme le goût d'un fruit dont on a oublié le nom</div>
-        <div class="revelation" style="animation-delay: 5.88s">Vous porterez cette empreinte sans en connaître le poids</div>
-        <div class="revelation" style="animation-delay: 6.44s">Comme un sable qui garde la forme d'une main disparue</div>
-        <div class="revelation" style="animation-delay: 7.0s">Cette transformation ne se mesurera qu'à son absence</div>
-        <div class="revelation" style="animation-delay: 7.56s">Ce qui a frémi ici ne peut retourner au silence</div>
-        <div class="revelation" style="animation-delay: 8.12s">Ce qui s'est déplacé refuse de se remettre en place</div>
+        <div class="revelation" style="animation-delay: 0.2s">L'ÉCHO DE VOTRE GESTE S'EST FIXÉ DANS L'INTANGIBLE</div>
+        <div class="revelation" style="animation-delay: 0.6s">Ce qui vient de se produire a modifié l'équilibre des choses</div>
+        <div class="revelation" style="animation-delay: 1.0s">Une brèche s'est ouverte là où le regard glisse d'habitude</div>
+        <div class="revelation" style="animation-delay: 1.4s">Votre présence n'est pas passée inaperçue</div>
+        <div class="revelation" style="animation-delay: 1.8s">Votre trace rejoint désormais la mémoire des passages</div>
+        <div class="revelation" style="animation-delay: 2.2s">Une vibration qui active ce qui demeurait endormi</div>
+        <div class="revelation" style="animation-delay: 2.6s">Ceci n'est pas un achat — c'est un échange silencieux</div>
+        <div class="revelation" style="animation-delay: 3.0s">L'ombre de cet instant vous épousera désormais</div>
+        <div class="revelation" style="animation-delay: 3.4s">Persistante comme le souvenir d'un souffle dans le cou</div>
+        <div class="revelation" style="animation-delay: 3.8s">Tenace comme le goût d'un fruit dont on a oublié le nom</div>
+        <div class="revelation" style="animation-delay: 4.2s">Vous porterez cette empreinte sans en connaître le poids</div>
+        <div class="revelation" style="animation-delay: 4.6s">Comme un sable qui garde la forme d'une main disparue</div>
+        <div class="revelation" style="animation-delay: 5.0s">Cette transformation ne se mesurera qu'à son absence</div>
+        <div class="revelation" style="animation-delay: 5.4s">Ce qui a frémi ici ne peut retourner au silence</div>
+        <div class="revelation" style="animation-delay: 5.8s">Ce qui s'est déplacé refuse de se remettre en place</div>
         <div class="sigillum">Silence Veiled</div>
     </div>
 
     <script>
-        (() => {
-            const configureNeurologicalTiming = () => {
+        (function() {
+            // Initialisation Universelle
+            function initExperience() {
+                // Synchronisation des Animations
                 const revelations = document.querySelectorAll('.revelation');
                 revelations.forEach((el, index) => {
-                    const baseDelay = 0.28 + (index * 0.56);
-                    el.style.animationDelay = `${baseDelay * 0.92}s`;
+                    el.style.animationDelay = `${index * 0.4 + 0.2}s`;
                 });
-            };
 
-            const initPerceptualSmoothing = () => {
-                document.body.style.opacity = 0;
-                requestAnimationFrame(() => {
-                    document.body.style.transition = 'opacity 1.2s var(--timing-1)';
-                    document.body.style.opacity = 1;
-                });
-            };
-
-            const addSubliminalInteractions = () => {
-                let lastTime = 0;
-                const handleMove = (e) => {
+                // Interaction Tactile Universelle
+                let lastUpdate = 0;
+                const updateView = (x, y) => {
                     const now = Date.now();
-                    if (now - lastTime < 120) return;
-                    lastTime = now;
+                    if (now - lastUpdate < 16) return;
+                    lastUpdate = now;
 
-                    const tilt = Math.min(Math.max((e.clientY / window.innerHeight - 0.5) * 0.8, -1), 1);
-                    document.documentElement.style.setProperty('--tilt-y', `${tilt}deg`);
+                    const tiltX = (x / window.innerWidth - 0.5) * 2;
+                    const tiltY = (y / window.innerHeight - 0.5) * 3;
+                    document.documentElement.style.setProperty('--tilt-x', `${tiltX}deg`);
+                    document.documentElement.style.setProperty('--tilt-y', `${tiltY}deg`);
                 };
 
-                window.addEventListener('mousemove', handleMove, { passive: true });
-            };
+                // Gestion Multi-Plateforme
+                if ('ontouchstart' in window) {
+                    window.addEventListener('touchmove', (e) => {
+                        updateView(e.touches[0].clientX, e.touches[0].clientY);
+                    }, { passive: true });
+                } else {
+                    window.addEventListener('mousemove', (e) => {
+                        updateView(e.clientX, e.clientY);
+                    }, { passive: true });
+                }
 
-            document.addEventListener('DOMContentLoaded', () => {
-                configureNeurologicalTiming();
-                initPerceptualSmoothing();
-                addSubliminalInteractions();
+                // Démarrage Progressif
+                document.body.style.opacity = '0';
+                requestAnimationFrame(() => {
+                    document.body.style.transition = 'opacity 2s var(--motion-timing)';
+                    document.body.style.opacity = '1';
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', initExperience);
+            window.addEventListener('load', () => {
+                document.documentElement.style.scrollBehavior = 'smooth';
             });
         })();
     </script>
